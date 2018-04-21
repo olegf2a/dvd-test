@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+
+{% block left-sitebar %}
+    <li><a href="{% url 'dvd-list' %}">DVD List</a></li>
+   {% if user.is_authenticated %}
+     <li><a href="{% url 'my-dvd'%}">My DVDs</a></li>
+   {% endif %}
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Rental Store</h1>
+  <p>The Store has the following record counts:</p>
+  <ul>
+    <li><a href="{%   url 'dvd-list' %}"><strong>DVD:</strong> {{ num_dvd }}</a></li>
+  </ul>
+{% endblock %}

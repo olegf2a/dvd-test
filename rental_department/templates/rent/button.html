@@ -1,0 +1,9 @@
+{% if dvd.is_available  %}
+    <a class="btn btn-info" href="{% url 'rent-dvd' pk=dvd.id %}?next={{ request.path }}">Rent</a>
+{% else %}
+    {% if user.id == dvd.renter_id %}
+        <a class="btn btn-info" href="{% url 'return-dvd' pk=dvd.id %}?next={{ request.path }}">Return</a>
+    {% else %}
+        <p>rented by {{ dvd.renter_name }}</p>
+    {% endif %}
+{% endif %}

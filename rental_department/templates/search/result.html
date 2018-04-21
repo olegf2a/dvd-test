@@ -1,0 +1,22 @@
+{% extends "rental_base.html" %}
+
+{% block content %}
+    <h1>Search Result</h1>
+    <form method="get" action="{% url 'search' %}">
+    {{ filter.form.as_p }}
+    <button type="submit">Search</button>
+    </form>
+
+    <ul>
+
+      {% for dvd in filter.qs %}
+      <li>
+        <a href="{{ dvd.get_absolute_url }}">{{ dvd.title }}</a>
+      </li>
+      {% endfor %}
+
+    </ul>
+
+    <a href="{% url 'dvd-list' %}">Back to DVD List</a>
+
+{% endblock %}

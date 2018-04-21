@@ -1,0 +1,5 @@
+{% if user.is_authenticated %}
+    {% include 'rent/button.html' %}
+{% else %}
+    <p>login to rent</p>
+{% endif %}

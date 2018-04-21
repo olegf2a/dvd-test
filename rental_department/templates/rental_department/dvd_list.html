@@ -1,0 +1,24 @@
+{% extends "rental_base.html" %}
+
+{% block content %}
+    <h1>DVD List</h1>
+    <form method="get" action="{% url 'search' %}">
+        {{ filter.form.as_p }}
+        <button class="btn btn-info" type="submit">Search</button>
+    </form>
+
+    {% if dvd_list %}
+        <ul>
+
+            {% for dvd in dvd_list %}
+                <li>
+                    <a href="{{ dvd.get_absolute_url }}">{{ dvd.title }}</a>
+                    <p>{{ dvd.short_summary }}</p>
+                </li>
+            {% endfor %}
+
+        </ul>
+    {% else %}
+        <p>There are no DVDs in the store.</p>
+    {% endif %}
+{% endblock %}

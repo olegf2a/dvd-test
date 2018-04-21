@@ -1,0 +1,22 @@
+{% extends "rental_base.html" %}
+
+{% block content %}
+    <h1>Rented Dvds</h1>
+    <ul>
+
+    {% if list %}
+      {% for dvd in list %}
+      <li>
+        <a href="{{ dvd.get_absolute_url }}">{{ dvd.title }}</a>
+        <p>{% include 'rent/main.html' %}</p>
+      </li>
+      {% endfor %}
+
+    </ul>
+    {% else %}
+        <p>You don not have rented DVDs</p>
+    {% endif %}
+
+    <a href="{% url 'dvd-list' %}">Check available DVDs</a>
+
+{% endblock %}
