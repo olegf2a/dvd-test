@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'sampledatahelper',
     'rental_department.apps.RentalDepartmentConfig',
     'django_rest.apps.DjangoRestConfig',
     'rest_framework',
@@ -144,17 +143,3 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }
-
-SAMPLEDATAHELPER_SEED = 123456789
-
-SAMPLEDATAHELPER_MODELS = [
-    {
-        'model': 'rental_department.Dvd',
-        'number': 20,
-        'fields_overwrite': [
-            ('title', lambda _, sd: sd.int(5, 10)),
-            ('summary', lambda _, sd: sd.int(5, 10)),
-            ('borrower', lambda _, sd: sd.int(5, 10)),
-        ]
-    }
-]
