@@ -1,1 +1,4 @@
 ansible==2.5.0
+Django==2.0
+djangorestframework==3.8.2
+django-filter==1.1.0

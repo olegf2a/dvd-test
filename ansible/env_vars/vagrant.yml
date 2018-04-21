@@ -1,0 +1,24 @@
+---
+
+default_locale: en_US.UTF-8
+
+ubuntu_release: trusty
+
+# Application settings.
+virtualenv_path: "/home/vagrant/{{ application_name }}"
+
+application_path: "/vagrant"
+application_user: "vagrant"
+application_group: "vagrant"
+application_log_dir: "{{ virtualenv_path }}/logs"
+
+db_name: django_store
+db_host: localhost
+db_user: django_store
+db_password: django_store
+
+# Environment variables
+virtualenv_vars:
+  DATABASE_USER: "{{ db_user }}"
+  DATABASE_PASSWORD: "{{ db_password }}"
+

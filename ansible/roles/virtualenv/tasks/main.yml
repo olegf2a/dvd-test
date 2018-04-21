@@ -1,0 +1,76 @@
+---
+
+- name: Install Python packages
+  apt:
+    name: "{{ item }}"
+    state: installed
+    force: yes 
+  with_items:
+    - python3-dev
+    - python3-pip
+    - python3-pycurl
+    - supervisor
+  tags: packages
+
+- name: Upgrade pip
+  pip: name=pip state=latest executable=pip3
+  tags: packages
+
+- name: Install virtualenv
+  pip: name=virtualenv executable=pip3
+  tags: packages
+
+- name: Create the virtualenv
+  command: virtualenv {{ virtualenv_path }} --no-site-packages
+           creates={{ virtualenv_path }}/bin/activate
+
+- name: Install requirements.txt
+  pip:  virtualenv={{ virtualenv_path }} requirements={{ requirements_file }} #executable=pip3
+
+- name: Create the application log folder
+  file: path={{ application_log_dir }}
+        owner={{ application_user }}
+        group={{ application_group }}
+        mode=0774
+        state=directory
+
+- name: Create bash_profile.sh
+  template: src=bash_profile.sh.j2
+            dest=/home/{{ application_user }}/.bash_profile
+            owner={{ application_user }}
+            group={{ application_group }}
+            mode=0640
+            backup=yes
+
+- name: Create the etc folder
+  file: path={{ virtualenv_path }}/etc
+        owner={{ application_user }}
+        group={{ application_group }}
+        mode=0774
+        state=directory
+
+- name: Create env.py script
+  template: src=env.py
+            dest={{ virtualenv_path }}/bin/env.py
+            owner={{ application_user }}
+            group={{ application_group }}
+            mode=0775
+            backup=no
+
+- name: Create the environment file
+  template: src=env.yml.j2
+            dest={{ virtualenv_vars_file }}
+            owner={{ application_user }}
+            group={{ application_group }}
+            mode=0640
+            force=no
+
+- name: Create the run folder
+  file: path={{ virtualenv_path }}/run
+        owner={{ application_user }}
+        group={{ application_group }}
+        state=directory
+#        mode=0774
+
+- name: Update the project directory
+  file: group={{ application_user }} owner={{ application_user }} mode="a+rX" state=directory path={{ virtualenv_path }} recurse=true

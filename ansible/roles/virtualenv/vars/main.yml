@@ -1,0 +1,5 @@
+---
+
+virtualenv_vars_file: "{{ virtualenv_path }}/etc/env.yml"
+
+requirements_file: "{{ application_path }}/requirements.txt"

@@ -1,0 +1,49 @@
+---
+
+- name: Set up locale
+  locale_gen: name={{ default_locale }} state=present
+
+- name: Set up locale (LC_ALL)
+  sudo: yes
+  lineinfile: dest=/etc/default/locale
+    regexp="LC_ALL"
+    line="LC_ALL=\"{{ default_locale }}\""
+
+- name: Install base packages
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+    state: installed
+    force: yes 
+  with_items:
+    - build-essential
+    - acl
+    - ntp
+    - htop
+    - git
+    - unzip
+  tags: packages
+
+- name: Ensure bash, OpenSSL, and libssl are the latest versions
+  apt: name={{ item }} state=latest
+  with_items:
+    - bash
+    - openssl
+    - libssl-dev
+    - libssl-doc
+  tags: packages
+
+- name: Clean up motd
+  file:
+    path: "/etc/update-motd.d/{{ item }}"
+    state: absent
+  with_items:
+    - 10-help-text
+    - 50-landscape-sysinfo
+    - 51-cloudguest
+    - 90-updates-available
+  register: motd_removed
+
+- name: Update motd
+  command: 'run-parts /etc/update-motd.d/'
+  when: motd_removed|changed

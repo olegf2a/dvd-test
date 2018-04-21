@@ -1,0 +1,17 @@
+---
+
+- name: Create a Vagrant VM
+  #gather_facts: False
+  hosts: all
+  become: yes
+  become_method: sudo
+  remote_user: vagrant
+  vars:
+    - application_name: store
+  vars_files:
+    - env_vars/vagrant.yml
+  roles:
+    - base
+    - virtualenv
+    - mysql
+    - nginx

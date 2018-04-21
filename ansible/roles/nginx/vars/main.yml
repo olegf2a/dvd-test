@@ -1,0 +1,9 @@
+---
+
+nginx_http_port: 80
+nginx_https_port: 443
+nginx_access_log_file: "{{ application_log_dir }}/nginx-access.log"
+nginx_error_log_file: "{{ application_log_dir }}/nginx-error.log"
+nginx_static_dir: "{{ virtualenv_path }}/static/"
+nginx_media_dir: "{{ virtualenv_path }}/media/"
+

@@ -1,0 +1,31 @@
+---
+
+- name: Add Nginx apt key
+  apt_key: keyserver=keyserver.ubuntu.com id=7BD9BF62 state=present
+
+- name: "Add Nginx repository"
+  apt_repository: repo='deb http://nginx.org/packages/mainline/ubuntu/ {{ ubuntu_release|lower }} nginx' state=present
+
+- name: Install Nginx
+  apt: name=nginx update_cache=yes state=installed
+  tags: packages
+
+- name: Create the Nginx configuration file
+  template:
+    src: nginx-vhost.j2
+    dest: /etc/nginx/conf.d/vhost.conf
+    backup: no
+  notify: reload nginx
+
+- name: Disable default Nginx site
+  file:
+    path: /etc/nginx/conf.d/default.conf
+    state: absent
+  notify: reload nginx
+
+- name: Ensure Nginx service is started
+  service: name=nginx state=started enabled=yes
+
+- name: Set hostname
+  hostname: name='{{ application_name }}'
+

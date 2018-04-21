@@ -1,0 +1,48 @@
+#!/bin/sh
+
+export PS1="\u@\[\e[00;36m\]\h\[\e[0m\]:\w\\$ "
+
+cd {{ application_path }}
+. {{ virtualenv_path }}/bin/activate
+
+export ENV_FILE="{{ virtualenv_vars_file }}"
+
+_getenv() {
+	if [ $# -eq 1 ]; then
+		{{ virtualenv_path }}/bin/env.py -g $@
+	elif [ $# -eq 0 ]; then
+		{{ virtualenv_path }}/bin/env.py
+    else
+        echo "Usage: getenv <var>"
+	fi
+} && alias getenv=_getenv
+
+_setenv() {
+    if [ $# -eq 2 ]; then
+        {{ virtualenv_path }}/bin/env.py -s $@
+    else
+        echo "Usage: setenv <var> <value>"
+    fi
+} && alias setenv=_setenv
+
+_delenv() {
+    if [ $# -eq 1 ]; then
+        {{ virtualenv_path }}/bin/env.py -d $1
+    else
+        echo "Usage: delenv <var>"
+    fi
+} && alias delenv=_delenv
+
+_env() {
+    local cur prev words cword split
+    _init_completion -s || return
+    COMPREPLY=( $( compgen -W "$({{ virtualenv_path }}/bin/env.py -l keys 2>/dev/null)" -- "$cur" ) )
+    return 0
+} && complete -o bashdefault -o default -o nospace -F _env getenv setenv delenv
+
+if [ -f $ENV_FILE ]; then
+    eval "$( {{ virtualenv_path }}/bin/env.py -l bash )"
+fi
+
+alias manage.py='{{ application_path }}/{{ application_name }}/manage.py'
+alias runserver='{{ application_path }}/{{ application_name }}/manage.py runserver 0.0.0.0:5000'
