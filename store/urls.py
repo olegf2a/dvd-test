@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path
 from django.views.generic.base import TemplateView
-from store.views import signup
+from rental_department.views.auth import signup
 
 
 urlpatterns = [
