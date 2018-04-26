@@ -20,6 +20,7 @@ class DvdDetailView(generic.DetailView):
 class DvdListView(generic.ListView):
     model = Dvd
     paginate_by = 5
+    queryset = Dvd.objects.order_by('id')
 
     def get_context_data(self, **kwargs):
         ctx = super(DvdListView, self).get_context_data(**kwargs)
