@@ -89,5 +89,7 @@ local_settings.py
 
 .env
 
+/.vagrant
+
 /staticfiles/
 /dvd-venv/
