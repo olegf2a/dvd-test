@@ -2,7 +2,7 @@
 
 {% block content %}
     <h1>Search Result</h1>
-    <form method="get" action="{% url 'search' %}">
+    <form method="get" action="{% url 'rental:search' %}">
     {{ filter.form.as_p }}
     <button type="submit">Search</button>
     </form>
@@ -17,6 +17,6 @@
 
     </ul>
 
-    <a href="{% url 'dvd-list' %}">Back to DVD List</a>
+    <a href="{% url 'rental:dvd-list' %}">Back to DVD List</a>
 
 {% endblock %}
