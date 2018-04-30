@@ -1,8 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from rental_department.models import Dvd
 from django.shortcuts import get_object_or_404
-from django.shortcuts import render, redirect
-
+from django.shortcuts import redirect
+from django.views import generic
 
 @login_required
 def rent_dvd(request, pk):
@@ -20,9 +20,14 @@ def return_dvd(request, pk):
     return redirect(request.GET.get('next', '/'))
 
 
-@login_required
-def my_dvd(request):
-    dvd_list = Dvd.objects.all().filter(borrower=request.user)
-    return render(request, 'my_dvd.html', {'list': dvd_list})
+class MyDvdList(generic.ListView):
+    model = Dvd
+    paginate_by = 5
+    template_name = 'my_dvd.html'
+
+    def get_queryset(self):
+        new_context = Dvd.objects.filter(borrower=self.request.user).order_by('id')
+        return new_context
+
 
 

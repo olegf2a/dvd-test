@@ -18,38 +18,38 @@ class StorefrontTest(TestCase):
         self.dvd2.save()
 
     def test_main(self):
-        response = self.client.get(reverse('rental'))
+        response = self.client.get(reverse('rental:rental'))
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context['num_dvd'], 2)
+        self.assertEqual(len(response.context['dvd_list']), 2)
 
     def test_dvd_list(self):
-        response = self.client.get(reverse('rental-dvd-list'))
+        response = self.client.get(reverse('rental:dvd-list'))
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['dvd_list']), 2)
 
     def test_dvd_detail(self):
-        response = self.client.get(reverse('rental-dvd-detail', args=[str(self.dvd1.id)]))
+        response = self.client.get(reverse('rental:dvd-detail', args=[str(self.dvd1.id)]))
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['dvd'].id, self.dvd1.id)
 
     def test_rent_dvd(self):
-        self.client.get(reverse('rent-dvd', args=[str(self.dvd1.id)]))
+        self.client.get(reverse('rental:rent-dvd', args=[str(self.dvd1.id)]))
 
         updated_dvd1 = Dvd.objects.get(title="title-1")
         self.assertEqual(updated_dvd1.borrower_id, self.user.id)
 
     def test_return_dvd(self):
-        self.client.get(reverse('return-dvd', args=[str(self.dvd2.id)]))
+        self.client.get(reverse('rental:return-dvd', args=[str(self.dvd2.id)]))
 
         updated_dvd2 = Dvd.objects.get(title="title-2")
         self.assertIsNone(updated_dvd2.borrower_id)
 
     def test_my_dvd(self):
-        response = self.client.get(reverse('my-dvd'))
-        dvd_list = response.context['list']
+        response = self.client.get(reverse('rental:my-dvd'))
+        dvd_list = response.context['dvd_list']
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(dvd_list), 1)

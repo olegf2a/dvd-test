@@ -4,18 +4,19 @@
     <h1>Search Result</h1>
     <form method="get" action="{% url 'rental:search' %}">
     {{ filter.form.as_p }}
-    <button type="submit">Search</button>
+    <button class="btn btn-info" type="submit">Search</button>
     </form>
-
-    <ul>
-
-      {% for dvd in filter.qs %}
-      <li>
-        <a href="{{ dvd.get_absolute_url }}">{{ dvd.title }}</a>
-      </li>
-      {% endfor %}
-
-    </ul>
+    {% if dvd_list %}
+        <ul>
+          {% for dvd in dvd_list %}
+          <li>
+            <a href="{{ dvd.get_absolute_url }}">{{ dvd.title }}</a>
+          </li>
+          {% endfor %}
+        </ul>
+    {% else  %}
+        <div>There is no DVD for your request.</div>
+    {% endif  %}
 
     <a href="{% url 'rental:dvd-list' %}">Back to DVD List</a>
 

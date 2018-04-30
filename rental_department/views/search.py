@@ -1,12 +1,18 @@
 from rental_department.models import Dvd
 from rental_department.filters import DvdFilter
-from django_filters.constants import EMPTY_VALUES
-from django.shortcuts import render, redirect
+from django.views import generic
 
 
-def search(request):
-    if request.GET.get('title') in EMPTY_VALUES:
-        return redirect('dvd-list')
-    dvd_list = Dvd.objects.all()
-    dvd_filter = DvdFilter(request.GET, queryset=dvd_list)
-    return render(request, 'search/result.html', {'filter': dvd_filter})
+class SearchDvdList(generic.ListView):
+    model = Dvd
+    paginate_by = 5
+    template_name = 'search/result.html'
+
+    def get_queryset(self):
+        # TODO fix bug with missing query during pagination
+        return Dvd.objects.filter(title__contains=self.request.GET.get('title')).order_by('id')
+
+    def get_context_data(self, **kwargs):
+        ctx = super(SearchDvdList, self).get_context_data(**kwargs)
+        ctx['filter'] = DvdFilter(self.request.GET)
+        return ctx

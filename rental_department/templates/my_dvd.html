@@ -4,8 +4,8 @@
     <h1>Rented Dvds</h1>
     <ul>
 
-    {% if list %}
-      {% for dvd in list %}
+    {% if dvd_list %}
+      {% for dvd in dvd_list %}
       <li>
         <a href="{{ dvd.get_absolute_url }}">{{ dvd.title }}</a>
         <p>{% include 'rent/main.html' %}</p>
