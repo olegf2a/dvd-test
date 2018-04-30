@@ -18,7 +18,7 @@ class Dvd(models.Model):
         """
         Returns the url to access a DVD.
         """
-        return reverse('dvd-detail', args=[str(self.id)])
+        return reverse('rental:dvd-detail', args=[str(self.id)])
 
     @property
     def short_summary(self):
