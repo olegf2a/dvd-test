@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rental_department import views
-from rental_department.api.views import UserViewSet, DvdViewSet, UserDetailView
+from rental_department.api.views import UserViewSet, DvdViewSet
 app_name = 'rental'
 
 urlpatterns = [
