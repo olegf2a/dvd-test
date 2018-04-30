@@ -19,7 +19,5 @@ router.register(r'users', UserViewSet)
 router.register(r'dvd', DvdViewSet)
 
 urlpatterns += [
-    path('', UserViewSet),
-    path('', DvdViewSet),
     path('api/', include((router.urls, 'api'), namespace='api'))
 ]
