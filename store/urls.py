@@ -28,5 +28,5 @@ urlpatterns = [
     path('logout/', auth_views.logout, name='logout'),
     path('signup/', signup, name='signup'),
     path('rental/', include('rental_department.urls')),
-    path('api-auth/', include('rest_framework.urls'))
+    path('rest/', include('django_rest.urls'))
 ]
