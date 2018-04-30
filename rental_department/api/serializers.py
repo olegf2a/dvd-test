@@ -5,12 +5,16 @@ from rental_department.models import Dvd
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name="rental:api:user-detail")
+
     class Meta:
         model = User
-        fields = ('url', 'username', 'email', 'is_staff')
+        fields = ( 'url', 'username', 'email', 'is_staff')
 
 
 class DvdSerializer(serializers.HyperlinkedModelSerializer):
+    borrower = serializers.HyperlinkedIdentityField(view_name="rental:api:user-detail")
+
     class Meta:
         model = Dvd
         fields = ('title', 'summary', 'borrower')

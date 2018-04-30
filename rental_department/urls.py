@@ -1,6 +1,7 @@
-from django.urls import path
-from . import views
-
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from rental_department import views
+from rental_department.api.views import UserViewSet, DvdViewSet, UserDetailView
 app_name = 'rental'
 
 urlpatterns = [
@@ -11,4 +12,14 @@ urlpatterns = [
     path('rent/<int:pk>', views.rent_dvd, name='rent-dvd'),
     path('return/<int:pk>', views.return_dvd, name='return-dvd'),
     path('my-dvd', views.my_dvd, name='my-dvd'),
+]
+
+router = DefaultRouter()
+router.register(r'users', UserViewSet)
+router.register(r'dvd', DvdViewSet)
+
+urlpatterns += [
+    path('', UserViewSet),
+    path('', DvdViewSet),
+    path('api/', include((router.urls, 'api'), namespace='api'))
 ]

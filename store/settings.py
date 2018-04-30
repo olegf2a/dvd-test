@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rental_department.apps.RentalDepartmentConfig',
-    'django_rest.apps.DjangoRestConfig',
     'rest_framework',
 ]
 
